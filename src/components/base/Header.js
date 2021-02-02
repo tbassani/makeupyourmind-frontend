@@ -9,7 +9,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import { useAuth } from '../../context/AuthContext.js';
 
 const Header = () => {
-  const { signOut, user } = useAuth();
+  const { signOut, signed } = useAuth();
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Navbar.Brand href="/">Make-up Your Mind</Navbar.Brand>
@@ -25,12 +25,28 @@ const Header = () => {
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
         </Form>
+        {signed ? (
+          <div>
+            <NavDropdown
+              title={<span style={{ color: 'white' }}>Usuário</span>}
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/">Sair</NavDropdown.Item>
+            </NavDropdown>
+          </div>
+        ) : (
+          <NavDropdown
+            title={<span style={{ color: 'white' }}>Usuário</span>}
+            id="basic-nav-dropdown"
+          >
+            <NavDropdown.Item href="/login">Entrar</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="/register">Registrar</NavDropdown.Item>
+          </NavDropdown>
+        )}
       </Navbar.Collapse>
-      <NavDropdown title={<span style={{ color: 'white' }}>Usuário</span>} id="basic-nav-dropdown">
-        <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="/">Sair</NavDropdown.Item>
-      </NavDropdown>
     </Navbar>
   );
 };

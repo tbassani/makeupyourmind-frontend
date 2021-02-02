@@ -5,15 +5,23 @@ import Button from 'react-bootstrap/Button';
 
 const ProductCard = (props) => {
   return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+    <Card
+      style={{
+        width: '18rem',
+        margin: '0.2rem',
+        border: 'solid 1px #CCC',
+      }}
+    >
+      <Card.Img variant="top" src={props.img} />
+      <Card.Body
+        style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flex-end' }}
+      >
+        <Card.Title>{props.name}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the bulk of the card's
-          content.
+          <h5>{props.maker}</h5>
+          <h6>R${props.price}</h6>
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary">Avalie!</Button>
       </Card.Body>
     </Card>
   );

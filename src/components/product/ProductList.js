@@ -1,11 +1,28 @@
-import ProductCard from './ProductCard';
+import React, { useEffect } from 'react';
 
-import { useApp } from '../context/AppContext.js';
+import ProductCard from './ProductCard';
+import CardGroup from 'react-bootstrap/CardGroup';
+
+import { useApp } from '../../context/AppContext.js';
 
 const ProductList = (props) => {
-  const { products } = useApp();
-  const renderCard = () => {
-    <ProductCard />;
+  const { products, getAllProducts, loading, error } = useApp();
+
+  useEffect(() => {
+    console.log(products);
+    getAllProducts();
+  }, []);
+
+  const renderCard = (card, index) => {
+    return (
+      <ProductCard
+        key={card.id}
+        img={card.img_src}
+        name={card.name}
+        maker={card.maker}
+        price={card.price}
+      />
+    );
   };
   return (
     <div>

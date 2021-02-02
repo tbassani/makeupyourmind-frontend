@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
+import * as appService from '../services/products.js';
+
 const AppContext = createContext({});
 
 export const AppProvider = ({ children }) => {
@@ -13,9 +15,19 @@ export const AppProvider = ({ children }) => {
     console.log('SET BRAND AND CAT');
   }, []);
 
-  async function search() {
+  async function searchProducts() {
     console.log('Search');
     setLoading(false);
+  }
+
+  async function getAllProducts() {
+    console.log('Get all products');
+    setLoading(true);
+    const response = await appService.getProductsService();
+    console.log(response);
+    setProducts(response);
+    setLoading(false);
+    return response;
   }
 
   return (
@@ -29,6 +41,8 @@ export const AppProvider = ({ children }) => {
         setUserInput,
         setBrand,
         products,
+        getAllProducts,
+        searchProducts,
       }}
     >
       {children}
