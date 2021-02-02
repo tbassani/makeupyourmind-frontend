@@ -33,7 +33,9 @@ const Header = () => {
             >
               <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/">Sair</NavDropdown.Item>
+              <NavDropdown.Item href="/" onClick={{ signOut }}>
+                Sair
+              </NavDropdown.Item>
             </NavDropdown>
           </div>
         ) : (

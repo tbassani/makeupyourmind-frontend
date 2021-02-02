@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext.js';
 
 const LoginPage = (props) => {
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState('your@email.com');
   const [password, setPassword] = useState('');
@@ -14,8 +18,7 @@ const LoginPage = (props) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     console.log('Login');
-    console.log(email);
-    console.log(password);
+    signIn(email, password);
   };
   return (
     <div
@@ -23,32 +26,41 @@ const LoginPage = (props) => {
       style={{ width: '50%', display: 'flex', justifyContent: 'space-evenly', flex: 1 }}
     >
       <Form onSubmit={(e) => onSubmitForm(e)}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Inserir email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onClick={() => setEmail('')}
-          />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
+        <Col>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              required
+              type="email"
+              placeholder="Inserir email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onClick={() => setEmail('')}
+            />
+            <Form.Text className="text-muted">
+              Não compartilharemos seu e-mail com ninguém
+            </Form.Text>
+          </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Senha</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Senha</Form.Label>
+            <Form.Control
+              required
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Entrar
+          </Button>
+          <Row>
+            <Col>
+              <Link to="/register">Não é cadastrado?</Link>
+            </Col>
+          </Row>
+        </Col>
       </Form>
     </div>
   );

@@ -18,8 +18,10 @@ const ProductCard = (props) => {
       >
         <Card.Title>{props.name}</Card.Title>
         <Card.Text>
-          <h5>{props.maker}</h5>
-          <h6>R${props.price}</h6>
+          <span>
+            <strong>{props.maker}</strong>
+          </span>
+          <span>R${props.price}</span>
         </Card.Text>
         <Button variant="primary">Avalie!</Button>
       </Card.Body>

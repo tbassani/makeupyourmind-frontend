@@ -9,7 +9,6 @@ const ProductList = (props) => {
   const { products, getAllProducts, loading, error } = useApp();
 
   useEffect(() => {
-    console.log(products);
     getAllProducts();
   }, []);
 

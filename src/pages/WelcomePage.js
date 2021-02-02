@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ProductList from '../components/product/ProductList.js';
 
 const WelcomePage = (props) => {

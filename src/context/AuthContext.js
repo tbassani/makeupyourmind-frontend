@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
+import * as authService from '../services/auth.js';
+
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -13,7 +15,8 @@ export const AuthProvider = ({ children }) => {
 
   async function signIn(email, password) {
     console.log('Sign In from Context');
-
+    setLoading(true);
+    await authService.signInService(email, password);
     // const response = await authService.signIn(email, password);
     // const { jwt, login_user } = response;
     // setUser(login_user);
@@ -30,8 +33,9 @@ export const AuthProvider = ({ children }) => {
     // });
   }
 
-  async function signUp(email) {
-    console.log('Signup: ' + email);
+  async function signUp(userData) {
+    console.log('Signup');
+    console.log(userData);
   }
 
   async function forgotPassword(email) {
@@ -62,6 +66,8 @@ export const AuthProvider = ({ children }) => {
         signUp,
         register,
         forgotPassword,
+        setUser,
+        setEmail,
       }}
     >
       {children}

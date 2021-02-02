@@ -24,7 +24,6 @@ export const AppProvider = ({ children }) => {
     console.log('Get all products');
     setLoading(true);
     const response = await appService.getProductsService();
-    console.log(response);
     setProducts(response);
     setLoading(false);
     return response;
@@ -43,6 +42,7 @@ export const AppProvider = ({ children }) => {
         products,
         getAllProducts,
         searchProducts,
+        userInput,
       }}
     >
       {children}
