@@ -17,8 +17,8 @@ const LoginPage = (props) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log('Login');
-    signIn(email, password);
+    await signIn(email, password);
+    props.history.push('/');
   };
   return (
     <div

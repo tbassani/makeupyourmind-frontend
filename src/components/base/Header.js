@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -7,9 +7,27 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 
 import { useAuth } from '../../context/AuthContext.js';
+import * as authService from '../../services/auth.js';
 
-const Header = () => {
-  const { signOut, signed } = useAuth();
+const Header = (props) => {
+  const { signOut, jwt, setJWT } = useAuth();
+  const [signed, setSigned] = useState(false);
+  const handleSignOut = () => {
+    signOut().then(() => {
+      console.log('Signout');
+      document.location = '/';
+    });
+  };
+
+  useEffect(() => {
+    async function checkIfSigned(jwt, setJWT) {
+      return await authService.isAuthService(jwt, setJWT);
+    }
+    checkIfSigned(jwt, setJWT).then((resp) => {
+      console.log(resp);
+      setSigned(resp);
+    });
+  }, [jwt]);
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Navbar.Brand href="/">Make-up Your Mind</Navbar.Brand>
@@ -33,7 +51,7 @@ const Header = () => {
             >
               <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/" onClick={{ signOut }}>
+              <NavDropdown.Item href="#" onClick={handleSignOut}>
                 Sair
               </NavDropdown.Item>
             </NavDropdown>

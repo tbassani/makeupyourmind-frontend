@@ -1,6 +1,8 @@
 //import decode from 'jwt-decode';
-import CONFIG from '../config/endpoints.js';
 import axios from 'axios';
+import decode from 'jwt-decode';
+
+import CONFIG from '../config/endpoints.js';
 
 export const signInService = async (email, password) => {
   const headers = {
@@ -8,21 +10,81 @@ export const signInService = async (email, password) => {
     datatype: 'json',
   };
   const body = { email, password };
-  await axios({
-    method: 'POST',
-    url: CONFIG.login,
-    headers: headers,
-    withCredentials: true,
-    body,
-  })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.error(err);
+  try {
+    const resp = await axios({
+      method: 'POST',
+      url: CONFIG.login,
+      headers: headers,
+      withCredentials: true,
+      data: body,
     });
+    const jwt = resp.headers['x-token'];
+    const user = resp.data.login_user;
+    return {
+      user,
+      jwt,
+    };
+  } catch (error) {
+    return {};
+  }
 };
 
-export const isAuthService = (jwt, callback) => {
-  return false;
+export const signOutService = async (jwt) => {
+  const headers = {
+    contenttype: 'application/json;',
+    Authorization: 'Bearer ' + jwt,
+    datatype: 'json',
+  };
+  try {
+    await axios({
+      method: 'GET',
+      url: CONFIG.logout,
+      headers: headers,
+      withCredentials: true,
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const isAuthService = async (jwt, callback) => {
+  var result = false;
+  if (jwt) {
+    const { exp } = decode(jwt);
+    if (exp >= Math.floor(new Date().getTime() / 1000)) {
+      await fetch(CONFIG.check_token, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      }).then((response) => {
+        if (response.status === 200) {
+          callback(response.headers.get('X-Token'));
+          result = true.valueOf;
+        } else {
+          console.log(response);
+          callback('');
+          result = false;
+        }
+      });
+    }
+  }
+  await fetch(CONFIG.check_token, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  }).then((response) => {
+    if (response.status === 200) {
+      callback(response.headers.get('X-Token'));
+      result = true;
+    } else {
+      callback('');
+      result = false;
+    }
+  });
+  return result;
 };

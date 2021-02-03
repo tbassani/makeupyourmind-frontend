@@ -21,6 +21,7 @@ const ProductCard = (props) => {
           <span>
             <strong>{props.maker}</strong>
           </span>
+          <br />
           <span>R${props.price}</span>
         </Card.Text>
         <Button variant="primary">Avalie!</Button>

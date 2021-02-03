@@ -8,29 +8,29 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
+  const [jwt, setJWT] = useState('');
 
   useEffect(() => {
-    console.log('GET TOKEN FROM LOCAL STORAGE');
+    async function checkSignIn(jwt, setJWT) {
+      await authService.isAuthService(jwt, setJWT);
+    }
+    // Execute the created function directly
+    checkSignIn(jwt, setJWT);
   }, []);
 
   async function signIn(email, password) {
     console.log('Sign In from Context');
     setLoading(true);
-    await authService.signInService(email, password);
-    // const response = await authService.signIn(email, password);
-    // const { jwt, login_user } = response;
-    // setUser(login_user);
-
-    // await AsyncStorage.setItem('user', JSON.stringify(login_user));
-    // await AsyncStorage.setItem('token', jwt);
+    const response = await authService.signInService(email, password);
+    setUser(response.user);
+    setJWT(response.token);
     setLoading(false);
   }
 
   async function signOut() {
     console.log('Sign Out from Context');
-    // AsyncStorage.clear().then(() => {
-    //   setUser(null);
-    // });
+    setJWT(null);
+    await authService.signOutService(jwt);
   }
 
   async function signUp(userData) {
@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        signed: Boolean(user),
         user,
         loading,
         email,
@@ -68,6 +67,8 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         setUser,
         setEmail,
+        jwt,
+        setJWT,
       }}
     >
       {children}

@@ -4,13 +4,16 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { isAuthService } from '../services/auth.js';
 
-const AuthRoutes = ({ component: Component, jwt, setToken, ...rest }) => {
+import { useAuth } from '../../src/context/AuthContext.js';
+
+const AuthRoutes = ({ component: Component, ...rest }) => {
+  const { signed } = useAuth();
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (!isAuthService(jwt, setToken)) {
-          return <Component {...props} jwt={jwt} setToken={setToken} />;
+        if (!signed) {
+          return <Component {...props} />;
         } else {
           return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
         }
