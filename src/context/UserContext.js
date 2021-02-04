@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
 import * as authService from '../services/auth.js';
+import * as userService from '../services/user.js';
 
 const UserContext = createContext({});
 
@@ -37,7 +38,7 @@ export const UserProvider = ({ children }) => {
   }
 
   async function signUp(userData) {
-    console.log('Signup');
+    await userService.registerUserService(userData, setJWT);
     console.log(userData);
   }
 

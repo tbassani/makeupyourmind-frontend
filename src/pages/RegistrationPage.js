@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 import { useUser } from '../context/UserContext.js';
+import DinamicSelect from '../components/common/DinamicSelect.js';
 
 const RegistrationPage = (props) => {
   const { signUp } = useUser();
@@ -30,10 +31,10 @@ const RegistrationPage = (props) => {
       lastname,
       email,
       password,
-      color,
-      acne,
-      lines,
-      oiliness,
+      skin_color: color,
+      skin_acne: acne,
+      skin_oiliness: oiliness,
+      skin_lines: lines,
     });
     props.history.push('/main');
   };
@@ -76,9 +77,6 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formHorizontalFirstname">
               <Col>
                 <Row>
-                  <Form.Label>Nome</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => setFirstname(e.target.value)}
                     required
@@ -90,9 +88,6 @@ const RegistrationPage = (props) => {
             </Form.Group>
             <Form.Group controlId="formHorizontalLastname">
               <Col>
-                <Row>
-                  <Form.Label>Sobrenome</Form.Label>
-                </Row>
                 <Row>
                   <Form.Control
                     onChange={(e) => setLastname(e.target.value)}
@@ -106,9 +101,6 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formHorizontalEmail">
               <Col>
                 <Row>
-                  <Form.Label>Email</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -121,9 +113,6 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formHorizontalPassword">
               <Col>
                 <Row>
-                  <Form.Label>Senha</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -135,9 +124,6 @@ const RegistrationPage = (props) => {
             </Form.Group>
             <Form.Group controlId="formHorizontalConfirmPassword">
               <Col>
-                <Row>
-                  <Form.Label>Confirmar senha</Form.Label>
-                </Row>
                 <Row>
                   <Form.Control
                     value={confirmPassword}
@@ -155,16 +141,13 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formGridColor">
               <Col>
                 <Row>
-                  <Form.Label>Cor da pele</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => colorHandler(e)}
                     required
                     as="select"
-                    defaultValue="Escolha..."
+                    defaultValue="Cor da pele"
                   >
-                    <option value="">Escolha...</option>
+                    <option value="">Cor da pele</option>
                     <option>teste</option>
                   </Form.Control>
                 </Row>
@@ -173,16 +156,13 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formGridAcne">
               <Col>
                 <Row>
-                  <Form.Label>Acne</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => acneHandler(e)}
                     required
                     as="select"
-                    defaultValue="Escolha..."
+                    defaultValue="Acne"
                   >
-                    <option value="">Escolha...</option>
+                    <option value="">Acne</option>
                     <option>...</option>
                   </Form.Control>
                 </Row>
@@ -191,16 +171,13 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formGridLines">
               <Col>
                 <Row>
-                  <Form.Label>Linhas da Pele</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => linesHandler(e)}
                     required
                     as="select"
-                    defaultValue="Escolha..."
+                    defaultValue="Linhas da Pele"
                   >
-                    <option value="">Escolha...</option>
+                    <option value="">Linhas da Pele</option>
                     <option>...</option>
                   </Form.Control>
                 </Row>
@@ -209,16 +186,13 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formGridOiliness">
               <Col>
                 <Row>
-                  <Form.Label>Oleosidade</Form.Label>
-                </Row>
-                <Row>
                   <Form.Control
                     onChange={(e) => oilinessHandler(e)}
                     required
                     as="select"
-                    defaultValue="Escolha..."
+                    defaultValue="Oleosidade"
                   >
-                    <option value="">Escolha...</option>
+                    <option value="">Oleosidade</option>
                     <option>...</option>
                   </Form.Control>
                 </Row>

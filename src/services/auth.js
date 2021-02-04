@@ -62,7 +62,7 @@ export const isAuthService = async (jwt, callback) => {
       }).then((response) => {
         if (response.status === 200) {
           callback(response.headers.get('X-Token'));
-          result = true.valueOf;
+          result = true;
         } else {
           console.log(response);
           callback('');

@@ -5,17 +5,19 @@ import * as appService from '../services/products.js';
 const AppContext = createContext({});
 
 export const AppProvider = ({ children }) => {
-  const [brand, setBrand] = useState('');
+  const [maker, setBrand] = useState('');
   const [category, setCategory] = useState('');
   const [userInput, setUserInput] = useState('');
   const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log('SET BRAND AND CAT');
   }, []);
 
-  async function searchProducts() {
+  async function searchProducts(category, maker, userInuput) {
+    setLoading(true);
     console.log('Search');
     setLoading(false);
   }
@@ -32,7 +34,7 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        brand,
+        maker,
         category,
         setLoading,
         loading,
