@@ -38,16 +38,11 @@ export const UserProvider = ({ children }) => {
   }
 
   async function signUp(userData) {
-    await userService.registerUserService(userData, setJWT);
-    console.log(userData);
+    return await userService.registerUserService(userData, setJWT);
   }
 
   async function forgotPassword(email) {
     console.log('Forgot password: ' + email);
-  }
-
-  async function register() {
-    console.log('Register from Context: ' + email);
   }
   return (
     <UserContext.Provider
@@ -60,7 +55,6 @@ export const UserProvider = ({ children }) => {
         signIn,
         signOut,
         signUp,
-        register,
         forgotPassword,
         setUser,
         setEmail,

@@ -39,7 +39,7 @@ const RegistrationPage = (props) => {
     e.preventDefault();
     console.log('Register');
     if (password === confirmPassword) {
-      await signUp({
+      const resp = await signUp({
         first_name: firstname,
         last_name: lastname,
         email,
@@ -49,7 +49,11 @@ const RegistrationPage = (props) => {
         skin_oiliness: oiliness,
         skin_lines: lines,
       });
-      props.history.push('/main');
+      if (resp.result) {
+        props.history.push('/main');
+      } else {
+        alert(resp.errorMsg);
+      }
     } else {
       alert('As senhas não correspondem!');
     }
