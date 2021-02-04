@@ -7,27 +7,15 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 
 import { useUser } from '../../context/UserContext.js';
-import * as authService from '../../services/auth.js';
 
 const Header = (props) => {
   const { signOut, jwt, setJWT } = useUser();
-  const [signed, setSigned] = useState(false);
   const handleSignOut = () => {
     signOut().then(() => {
       console.log('Signout');
       document.location = '/';
     });
   };
-
-  useEffect(() => {
-    async function checkIfSigned(jwt, setJWT) {
-      return await authService.isAuthService(jwt, setJWT);
-    }
-    checkIfSigned(jwt, setJWT).then((resp) => {
-      console.log(resp);
-      setSigned(resp);
-    });
-  }, [jwt]);
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Navbar.Brand href="/">Make-up Your Mind</Navbar.Brand>
@@ -43,7 +31,7 @@ const Header = (props) => {
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
         </Form>
-        {signed ? (
+        {props.isSigned ? (
           <div>
             <NavDropdown
               title={<span style={{ color: 'white' }}>Usuário</span>}

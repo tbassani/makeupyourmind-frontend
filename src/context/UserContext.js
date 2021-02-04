@@ -9,14 +9,17 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [jwt, setJWT] = useState('');
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
+    console.log('Check signIn from context');
     async function checkSignIn(jwt, setJWT) {
       await authService.isAuthService(jwt, setJWT);
     }
-    // Execute the created function directly
+
     checkSignIn(jwt, setJWT);
-  }, []);
+    setIsSignedIn(Boolean(jwt));
+  }, [jwt]);
 
   async function signIn(email, password) {
     console.log('Sign In from Context');
@@ -42,16 +45,8 @@ export const UserProvider = ({ children }) => {
     console.log('Forgot password: ' + email);
   }
 
-  async function register(email, password, code) {
+  async function register() {
     console.log('Register from Context: ' + email);
-
-    // const response = await authService.register(email, password, code);
-    // const { jwt, register_user } = response;
-    // console.log(response);
-    // setUser(register_user);
-
-    // await AsyncStorage.setItem('user', JSON.stringify(user));
-    // await AsyncStorage.setItem('token', jwt);
   }
   return (
     <UserContext.Provider
@@ -59,6 +54,7 @@ export const UserProvider = ({ children }) => {
         user,
         loading,
         email,
+        isSignedIn,
         setLoading,
         signIn,
         signOut,

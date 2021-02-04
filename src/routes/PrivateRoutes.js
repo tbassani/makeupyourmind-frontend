@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { isAuth } from '../services/auth.js';
-
-const PrivateRoute = ({ component: Component, jwt, setToken, ...rest }) => {
+const PrivateRoute = ({ component: Component, isSigned, ...rest }) => {
+  console.log(isSigned);
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (isAuth(jwt, setToken)) {
-          return <Component {...props} jwt={jwt} setToken={setToken} />;
+        if (isSigned) {
+          return <Component {...props} />;
         } else {
           return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
         }

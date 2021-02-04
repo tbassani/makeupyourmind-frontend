@@ -2,15 +2,12 @@ import React from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
 
-import { useUser } from '../../src/context/UserContext.js';
-
-const AuthRoutes = ({ component: Component, ...rest }) => {
-  const { signed } = useUser();
+const AuthRoutes = ({ component: Component, isSigned, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (!signed) {
+        if (!isSigned) {
           return <Component {...props} />;
         } else {
           return <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
