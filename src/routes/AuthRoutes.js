@@ -2,12 +2,10 @@ import React from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
 
-import { isAuthService } from '../services/auth.js';
-
-import { useAuth } from '../../src/context/AuthContext.js';
+import { useUser } from '../../src/context/UserContext.js';
 
 const AuthRoutes = ({ component: Component, ...rest }) => {
-  const { signed } = useAuth();
+  const { signed } = useUser();
   return (
     <Route
       {...rest}

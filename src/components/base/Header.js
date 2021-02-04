@@ -6,11 +6,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 
-import { useAuth } from '../../context/AuthContext.js';
+import { useUser } from '../../context/UserContext.js';
 import * as authService from '../../services/auth.js';
 
 const Header = (props) => {
-  const { signOut, jwt, setJWT } = useAuth();
+  const { signOut, jwt, setJWT } = useUser();
   const [signed, setSigned] = useState(false);
   const handleSignOut = () => {
     signOut().then(() => {

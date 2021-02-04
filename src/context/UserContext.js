@@ -2,9 +2,9 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 
 import * as authService from '../services/auth.js';
 
-const AuthContext = createContext({});
+const UserContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     // await AsyncStorage.setItem('token', jwt);
   }
   return (
-    <AuthContext.Provider
+    <UserContext.Provider
       value={{
         user,
         loading,
@@ -72,12 +72,12 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-export function useAuth() {
-  const context = useContext(AuthContext);
+export function useUser() {
+  const context = useContext(UserContext);
   return context;
 }
 //import {useAuth} from '../../../contexts/auth';

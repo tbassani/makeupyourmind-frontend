@@ -7,10 +7,10 @@ import Button from 'react-bootstrap/Button';
 
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '../context/AuthContext.js';
+import { useUser } from '../context/UserContext.js';
 
 const RegistrationPage = (props) => {
-  const { signUp } = useAuth();
+  const { signUp } = useUser();
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');

@@ -20,6 +20,7 @@ const ProductList = (props) => {
         name={card.name}
         maker={card.maker}
         price={card.price}
+        img_ref={card.ref}
       />
     );
   };

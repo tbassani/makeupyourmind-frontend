@@ -7,10 +7,10 @@ import Col from 'react-bootstrap/Col';
 
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '../context/AuthContext.js';
+import { useUser } from '../context/UserContext.js';
 
 const LoginPage = (props) => {
-  const { signIn } = useAuth();
+  const { signIn } = useUser();
 
   const [email, setEmail] = useState('your@email.com');
   const [password, setPassword] = useState('');

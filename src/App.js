@@ -6,20 +6,20 @@ import Routes from '../src/routes/Routes.js';
 
 import Header from '../src/components/base/Header.js';
 
-import { AuthProvider } from '../src/context/AuthContext.js';
+import { UserProvider } from '../src/context/UserContext.js';
 import { AppProvider } from '../src/context/AppContext.js';
 
 const App = () => {
   return (
     <div>
-      <AuthProvider>
+      <UserProvider>
         <AppProvider>
           <Header />
           <div className="App" style={{ justifyContent: 'space-around', display: 'flex', flex: 1 }}>
             <Routes />
           </div>
         </AppProvider>
-      </AuthProvider>
+      </UserProvider>
     </div>
   );
 };
