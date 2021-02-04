@@ -10,9 +10,11 @@ import Col from 'react-bootstrap/Col';
 import { useUser } from '../../context/UserContext.js';
 import { useApp } from '../../context/AppContext.js';
 
+import DynamicSelect from '../common/DynamicSelect.js';
+
 const Header = (props) => {
   const { signOut } = useUser();
-  const { searchProducts } = useApp();
+  const { searchProducts, categories } = useApp();
 
   const [maker, setMaker] = useState('');
   const [category, setCategory] = useState('');
@@ -52,7 +54,7 @@ const Header = (props) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Form inline>
           <Col>
-            <Form.Control
+            {/* <Form.Control
               onChange={(e) => handleCategory(e.target.value)}
               as="select"
               defaultValue="Escolha..."
@@ -66,7 +68,8 @@ const Header = (props) => {
               <option value="6">Kits de maquiagem</option>
               <option value="7">Unhas</option>
               <option value="8">Maquiagem</option>
-            </Form.Control>
+            </Form.Control> */}
+            <DynamicSelect data={categories} handleSelect={handleCategory}></DynamicSelect>
           </Col>
         </Form>
         <Form inline>

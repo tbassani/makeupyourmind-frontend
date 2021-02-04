@@ -5,8 +5,6 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { Link } from 'react-router-dom';
-
 import { useUser } from '../context/UserContext.js';
 
 const RegistrationPage = (props) => {

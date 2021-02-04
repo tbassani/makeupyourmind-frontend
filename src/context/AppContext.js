@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
-import * as appService from '../services/products.js';
+import * as productService from '../services/products.js';
+import * as appService from '../services/app.js';
 
 const AppContext = createContext({});
 
@@ -9,11 +10,14 @@ export const AppProvider = ({ children }) => {
   const [category, setCategory] = useState('');
   const [userInput, setUserInput] = useState('');
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [skinProfiles, setSkinProfiles] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('SET BRAND AND CAT');
+    getSkinProfiles();
+    getCategories();
   }, []);
 
   async function searchProducts(category, maker, userInuput) {
@@ -25,10 +29,21 @@ export const AppProvider = ({ children }) => {
   async function getAllProducts() {
     console.log('Get all products');
     setLoading(true);
-    const response = await appService.getProductsService();
+    const response = await productService.getProductsService();
     setProducts(response);
     setLoading(false);
     return response;
+  }
+
+  async function getCategories() {
+    const response = await appService.getCategoriesService();
+    setCategories(response);
+  }
+
+  async function getSkinProfiles() {
+    const response = await appService.getSkinProfilesService();
+    console.log(response);
+    setSkinProfiles(response);
   }
 
   return (
@@ -45,6 +60,13 @@ export const AppProvider = ({ children }) => {
         getAllProducts,
         searchProducts,
         userInput,
+        categories,
+        setCategories,
+        skinProfiles,
+        setSkinProfiles,
+        categories,
+        getCategories,
+        getSkinProfiles,
       }}
     >
       {children}

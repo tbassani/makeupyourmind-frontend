@@ -2,15 +2,24 @@ import React, { useState, useEffect } from 'react';
 
 import Form from 'react-bootstrap/Form';
 
-export default function SimpleSelect(props) {
+export default function DynamicSelect(props) {
   const handleChange = (event) => {
     if (props.handleSelect) {
       props.handleSelect(event.target.value);
     }
   };
 
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
   const renderSelect = (select, index) => {
-    return <option value={select.id}>{select.description}</option>;
+    return (
+      <option value={select.id} key={select.id}>
+        {capitalize(select.description)}
+      </option>
+    );
   };
 
   if (props.required) {

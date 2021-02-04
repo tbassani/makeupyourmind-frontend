@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -8,10 +8,12 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 import { useUser } from '../context/UserContext.js';
-import DinamicSelect from '../components/common/DinamicSelect.js';
+import DynamicSelect from '../components/common/DynamicSelect.js';
+import { useApp } from '../context/AppContext.js';
 
 const RegistrationPage = (props) => {
   const { signUp } = useUser();
+  const { skinProfiles, getSkinProfiles } = useApp();
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -22,6 +24,12 @@ const RegistrationPage = (props) => {
   const [acne, setAcne] = useState('');
   const [lines, setLines] = useState('');
   const [oiliness, setOiliness] = useState('');
+  const [skinTypes, setSkinTypes] = useState({});
+
+  useEffect(() => {
+    console.log(skinProfiles);
+    setSkinTypes(skinProfiles);
+  }, [skinProfiles]);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -141,7 +149,7 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formGridColor">
               <Col>
                 <Row>
-                  <Form.Control
+                  {/* <Form.Control
                     onChange={(e) => colorHandler(e)}
                     required
                     as="select"
@@ -149,52 +157,45 @@ const RegistrationPage = (props) => {
                   >
                     <option value="">Cor da pele</option>
                     <option>teste</option>
-                  </Form.Control>
+                  </Form.Control> */}
+                  {skinTypes.skin_color ? (
+                    <DynamicSelect data={skinTypes.skin_color} default={''}></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
             <Form.Group controlId="formGridAcne">
               <Col>
                 <Row>
-                  <Form.Control
-                    onChange={(e) => acneHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Acne"
-                  >
-                    <option value="">Acne</option>
-                    <option>...</option>
-                  </Form.Control>
+                  {skinTypes.skin_acne ? (
+                    <DynamicSelect data={skinTypes.skin_acne} default={''}></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
             <Form.Group controlId="formGridLines">
               <Col>
                 <Row>
-                  <Form.Control
-                    onChange={(e) => linesHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Linhas da Pele"
-                  >
-                    <option value="">Linhas da Pele</option>
-                    <option>...</option>
-                  </Form.Control>
+                  {skinTypes.skin_lines ? (
+                    <DynamicSelect data={skinTypes.skin_lines} default={''}></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
             <Form.Group controlId="formGridOiliness">
               <Col>
                 <Row>
-                  <Form.Control
-                    onChange={(e) => oilinessHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Oleosidade"
-                  >
-                    <option value="">Oleosidade</option>
-                    <option>...</option>
-                  </Form.Control>
+                  {skinTypes.skin_oiliness ? (
+                    <DynamicSelect data={skinTypes.skin_oiliness} default={''}></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
