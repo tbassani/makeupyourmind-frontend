@@ -4,8 +4,9 @@ import Form from 'react-bootstrap/Form';
 
 export default function DynamicSelect(props) {
   const handleChange = (event) => {
-    if (props.handleSelect) {
+    if (props.handleSelect && event.target.value !== '') {
       props.handleSelect(event.target.value);
+    } else if (props.handleSelect && event.target.value === '') {
     }
   };
 

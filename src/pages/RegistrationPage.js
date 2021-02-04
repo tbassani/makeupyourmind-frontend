@@ -25,6 +25,10 @@ const RegistrationPage = (props) => {
   const [lines, setLines] = useState('');
   const [oiliness, setOiliness] = useState('');
   const [skinTypes, setSkinTypes] = useState({});
+  const [colorValid, setColorValid] = useState(true);
+  const [acneValid, setAcneValid] = useState(true);
+  const [linesValid, setLinesValid] = useState(true);
+  const [oilinessValid, setOilinessValid] = useState(true);
 
   useEffect(() => {
     console.log(skinProfiles);
@@ -34,31 +38,36 @@ const RegistrationPage = (props) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     console.log('Register');
-    await signUp({
-      firstname,
-      lastname,
-      email,
-      password,
-      skin_color: color,
-      skin_acne: acne,
-      skin_oiliness: oiliness,
-      skin_lines: lines,
-    });
-    props.history.push('/main');
+    if (password === confirmPassword) {
+      await signUp({
+        first_name: firstname,
+        last_name: lastname,
+        email,
+        password,
+        skin_color: color,
+        skin_acne: acne,
+        skin_oiliness: oiliness,
+        skin_lines: lines,
+      });
+      props.history.push('/main');
+    } else {
+      alert('As senhas não correspondem!');
+    }
   };
 
-  const colorHandler = (event) => {
-    setColor(event.target.value);
+  const colorHandler = (val) => {
+    setColor(val);
   };
-  const acneHandler = (event) => {
-    setAcne(event.target.value);
+  const acneHandler = (val) => {
+    setAcne(val);
   };
-  const linesHandler = (event) => {
-    setLines(event.target.value);
+  const linesHandler = (val) => {
+    setLines(val);
   };
-  const oilinessHandler = (event) => {
-    setOiliness(event.target.value);
+  const oilinessHandler = (val) => {
+    setOiliness(val);
   };
+
   return (
     <div
       id="container"
@@ -82,30 +91,6 @@ const RegistrationPage = (props) => {
       >
         <Form.Row>
           <Col>
-            <Form.Group controlId="formHorizontalFirstname">
-              <Col>
-                <Row>
-                  <Form.Control
-                    onChange={(e) => setFirstname(e.target.value)}
-                    required
-                    type="text"
-                    placeholder="Nome"
-                  />
-                </Row>
-              </Col>
-            </Form.Group>
-            <Form.Group controlId="formHorizontalLastname">
-              <Col>
-                <Row>
-                  <Form.Control
-                    onChange={(e) => setLastname(e.target.value)}
-                    required
-                    type="text"
-                    placeholder="Sobrenome"
-                  />
-                </Row>
-              </Col>
-            </Form.Group>
             <Form.Group controlId="formHorizontalEmail">
               <Col>
                 <Row>
@@ -149,17 +134,14 @@ const RegistrationPage = (props) => {
             <Form.Group controlId="formGridColor">
               <Col>
                 <Row>
-                  {/* <Form.Control
-                    onChange={(e) => colorHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Cor da pele"
-                  >
-                    <option value="">Cor da pele</option>
-                    <option>teste</option>
-                  </Form.Control> */}
                   {skinTypes.skin_color ? (
-                    <DynamicSelect data={skinTypes.skin_color} default={''}></DynamicSelect>
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_color}
+                      default={''}
+                      handleSelect={colorHandler}
+                    ></DynamicSelect>
                   ) : (
                     <Form.Control></Form.Control>
                   )}
@@ -170,7 +152,13 @@ const RegistrationPage = (props) => {
               <Col>
                 <Row>
                   {skinTypes.skin_acne ? (
-                    <DynamicSelect data={skinTypes.skin_acne} default={''}></DynamicSelect>
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_acne}
+                      default={''}
+                      handleSelect={acneHandler}
+                    ></DynamicSelect>
                   ) : (
                     <Form.Control></Form.Control>
                   )}
@@ -181,7 +169,13 @@ const RegistrationPage = (props) => {
               <Col>
                 <Row>
                   {skinTypes.skin_lines ? (
-                    <DynamicSelect data={skinTypes.skin_lines} default={''}></DynamicSelect>
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_lines}
+                      default={''}
+                      handleSelect={linesHandler}
+                    ></DynamicSelect>
                   ) : (
                     <Form.Control></Form.Control>
                   )}
@@ -192,7 +186,13 @@ const RegistrationPage = (props) => {
               <Col>
                 <Row>
                   {skinTypes.skin_oiliness ? (
-                    <DynamicSelect data={skinTypes.skin_oiliness} default={''}></DynamicSelect>
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_oiliness}
+                      default={''}
+                      handleSelect={oilinessHandler}
+                    ></DynamicSelect>
                   ) : (
                     <Form.Control></Form.Control>
                   )}

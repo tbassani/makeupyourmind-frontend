@@ -40,7 +40,7 @@ export const getSkinProfilesService = async () => {
     for (const key in skinData) {
       if (skinData.hasOwnProperty(key)) {
         const element = skinData[key];
-        element.push({ id: '', description: treatKeyName(key) });
+        element.unshift({ id: '', description: treatKeyName(key) });
         result[key] = element;
       }
     }
