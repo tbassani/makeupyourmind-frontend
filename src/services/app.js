@@ -45,7 +45,6 @@ export const getSkinProfilesService = async () => {
       }
     }
   }
-  console.log(result);
   return result;
 };
 

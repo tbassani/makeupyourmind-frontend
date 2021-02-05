@@ -42,7 +42,6 @@ export const AppProvider = ({ children }) => {
 
   async function getSkinProfiles() {
     const response = await appService.getSkinProfilesService();
-    console.log(response);
     setSkinProfiles(response);
   }
 

@@ -11,16 +11,19 @@ export const UserProvider = ({ children }) => {
   const [email, setEmail] = useState('');
   const [jwt, setJWT] = useState('');
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     console.log('Check signIn from context');
+    setLoading(true);
     async function checkSignIn(jwt, setJWT) {
       await authService.isAuthService(jwt, setJWT);
+      setLoading(false);
     }
 
     checkSignIn(jwt, setJWT);
     setIsSignedIn(Boolean(jwt));
-  }, [jwt]);
+  }, []);
 
   async function signIn(email, password) {
     console.log('Sign In from Context');
@@ -38,12 +41,30 @@ export const UserProvider = ({ children }) => {
   }
 
   async function signUp(userData) {
-    return await userService.registerUserService(userData, setJWT);
+    setLoading(true);
+    const resp = await userService.registerUserService(userData, setJWT);
+    setLoading(false);
+    return resp;
   }
 
   async function forgotPassword(email) {
     console.log('Forgot password: ' + email);
   }
+
+  async function getUserProfile() {
+    console.log('GET USER PROFILE');
+    const resp = await userService.getUserProfileService(jwt);
+    setProfile(resp);
+  }
+
+  async function setUserProfile(profile) {
+    setLoading(true);
+    console.log('GET USER PROFILE');
+    const resp = await userService.setUserProfileService(jwt, profile);
+    setProfile(resp);
+    setLoading(false);
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -60,6 +81,9 @@ export const UserProvider = ({ children }) => {
         setEmail,
         jwt,
         setJWT,
+        getUserProfile,
+        setUserProfile,
+        profile,
       }}
     >
       {children}

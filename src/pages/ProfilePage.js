@@ -1,43 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
+import DynamicSelect from '../components/common/DynamicSelect.js';
+import { useApp } from '../context/AppContext.js';
 import { useUser } from '../context/UserContext.js';
 
-const RegistrationPage = (props) => {
-  const { signUp } = useUser();
+const ProfilePage = (props) => {
+  const { skinProfiles } = useApp();
+  const { getUserProfile, profile, setUserProfile } = useUser();
 
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [email, setEmail] = useState('seu@email.com');
-  const [password, setPassword] = useState('');
+  const [initialColor, setInitialColor] = useState('');
+  const [initialAcne, setInitialAcne] = useState('');
+  const [initiaLines, setInitialLines] = useState('');
+  const [initialOiliness, setInitialOiliness] = useState('');
   const [color, setColor] = useState('');
   const [acne, setAcne] = useState('');
   const [lines, setLines] = useState('');
   const [oiliness, setOiliness] = useState('');
+  const [skinTypes, setSkinTypes] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const setTypes = async () => {
+      await getUserProfile();
+      setLoading(false);
+    };
+    setTypes();
+  }, []);
+
+  useEffect(() => {
+    setSkinTypes(skinProfiles);
+  }, [skinProfiles]);
+
+  useEffect(() => {
+    for (const key in profile) {
+      setInitialColor(profile.skin_color_id);
+      setInitialOiliness(profile.skin_oiliness_id);
+      setInitialLines(profile.skin_lines_id);
+      setInitialAcne(profile.skin_acne_id);
+      setColor(profile.skin_color_id);
+      setOiliness(profile.skin_oiliness_id);
+      setLines(profile.skin_lines_id);
+      setAcne(profile.skin_acne_id);
+    }
+  }, [profile]);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log('Update Profile');
-
-    props.history.push('/main');
+    setUserProfile({
+      skin_color: color,
+      skin_acne: acne,
+      skin_oiliness: oiliness,
+      skin_lines: lines,
+    });
   };
 
-  const colorHandler = (event) => {
-    setColor(event.target.value);
+  const colorHandler = (val) => {
+    setColor(val);
   };
-  const acneHandler = (event) => {
-    setAcne(event.target.value);
+  const acneHandler = (val) => {
+    setAcne(val);
   };
-  const linesHandler = (event) => {
-    setLines(event.target.value);
+  const linesHandler = (val) => {
+    setLines(val);
   };
-  const oilinessHandler = (event) => {
-    setOiliness(event.target.value);
+  const oilinessHandler = (val) => {
+    setOiliness(val);
   };
+
   return (
     <div
       id="container"
@@ -50,7 +85,7 @@ const RegistrationPage = (props) => {
         flex: 0.6,
       }}
     >
-      <h2>Registre-se!</h2>
+      <h2>Atualizar perfil de pele</h2>
       <Form
         onSubmit={(e) => onSubmitForm(e)}
         style={{
@@ -61,133 +96,92 @@ const RegistrationPage = (props) => {
       >
         <Form.Row>
           <Col>
-            <Form.Group controlId="formHorizontalFirstname">
-              <Col>
-                <Row>
-                  <Form.Label>Nome</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    defaultValue={firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
-                    required
-                    type="text"
-                    placeholder="Nome"
-                  />
-                </Row>
-              </Col>
-            </Form.Group>
-            <Form.Group controlId="formHorizontalLastname">
-              <Col>
-                <Row>
-                  <Form.Label>Sobrenome</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    defaultValue={lastname}
-                    onChange={(e) => setLastname(e.target.value)}
-                    required
-                    type="text"
-                    placeholder="Sobrenome"
-                  />
-                </Row>
-              </Col>
-            </Form.Group>
-            <Form.Group controlId="formHorizontalEmail">
-              <Col>
-                <Row>
-                  <Form.Label>Email</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control readonly defaultValue={email} type="email" placeholder="Email" />
-                </Row>
-              </Col>
-            </Form.Group>
-          </Col>
-          <Col sm={1}></Col>
-          <Col>
+            <Form.Label>Cor da Pele</Form.Label>
             <Form.Group controlId="formGridColor">
               <Col>
                 <Row>
-                  <Form.Label>Cor da pele</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    onChange={(e) => colorHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Escolha..."
-                  >
-                    <option value="">Escolha...</option>
-                    <option>teste</option>
-                  </Form.Control>
+                  {skinTypes.skin_color ? (
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_color}
+                      default={initialColor}
+                      handleSelect={colorHandler}
+                    ></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
+            <Form.Label>Acne</Form.Label>
             <Form.Group controlId="formGridAcne">
               <Col>
                 <Row>
-                  <Form.Label>Acne</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    onChange={(e) => acneHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Escolha..."
-                  >
-                    <option value="">Escolha...</option>
-                    <option>...</option>
-                  </Form.Control>
+                  {skinTypes.skin_acne ? (
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_acne}
+                      default={initialAcne}
+                      handleSelect={acneHandler}
+                    ></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
+            <Form.Label>Linhas da pele</Form.Label>
             <Form.Group controlId="formGridLines">
               <Col>
                 <Row>
-                  <Form.Label>Linhas da Pele</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    onChange={(e) => linesHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Escolha..."
-                  >
-                    <option value="">Escolha...</option>
-                    <option>...</option>
-                  </Form.Control>
+                  {skinTypes.skin_lines ? (
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_lines}
+                      default={initiaLines}
+                      handleSelect={linesHandler}
+                    ></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
+            <Form.Label>Oleosidade</Form.Label>
             <Form.Group controlId="formGridOiliness">
               <Col>
                 <Row>
-                  <Form.Label>Oleosidade</Form.Label>
-                </Row>
-                <Row>
-                  <Form.Control
-                    onChange={(e) => oilinessHandler(e)}
-                    required
-                    as="select"
-                    defaultValue="Escolha..."
-                  >
-                    <option value="">Escolha...</option>
-                    <option>...</option>
-                  </Form.Control>
+                  {skinTypes.skin_oiliness ? (
+                    <DynamicSelect
+                      aria-required="true"
+                      required
+                      data={skinTypes.skin_oiliness}
+                      default={initialOiliness}
+                      handleSelect={oilinessHandler}
+                    ></DynamicSelect>
+                  ) : (
+                    <Form.Control></Form.Control>
+                  )}
                 </Row>
               </Col>
             </Form.Group>
           </Col>
         </Form.Row>
         <Row style={{ display: 'flex', flexDirection: 'row', flex: 0.2, justifyContent: 'center' }}>
-          <Button variant="primary" type="submit">
-            Atualizar
-          </Button>
+          {loading ? (
+            <Spinner animation="border" variant="primary" />
+          ) : (
+            <Button variant="primary" type="submit">
+              Atualizar Perfil
+            </Button>
+          )}
         </Row>
       </Form>
     </div>
   );
 };
 
-export default RegistrationPage;
+export default ProfilePage;

@@ -25,10 +25,6 @@ const RegistrationPage = (props) => {
   const [lines, setLines] = useState('');
   const [oiliness, setOiliness] = useState('');
   const [skinTypes, setSkinTypes] = useState({});
-  const [colorValid, setColorValid] = useState(true);
-  const [acneValid, setAcneValid] = useState(true);
-  const [linesValid, setLinesValid] = useState(true);
-  const [oilinessValid, setOilinessValid] = useState(true);
 
   useEffect(() => {
     console.log(skinProfiles);

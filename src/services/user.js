@@ -32,7 +32,7 @@ export const registerUserService = async (userData, callback) => {
 };
 
 export const getUserProfileService = async (jwt) => {
-  var result = [];
+  var result = {};
   const headers = {
     contenttype: 'application/json;',
     Authorization: 'Bearer ' + jwt,
@@ -45,7 +45,30 @@ export const getUserProfileService = async (jwt) => {
     withCredentials: true,
   })
     .then((res) => {
-      result = res.data;
+      result = res.data.user_profile;
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  return result;
+};
+
+export const setUserProfileService = async (jwt, profile) => {
+  var result = false;
+  const headers = {
+    contenttype: 'application/json;',
+    Authorization: 'Bearer ' + jwt,
+    datatype: 'json',
+  };
+  await axios({
+    method: 'PUT',
+    url: CONFIG.update_skin_profile,
+    headers: headers,
+    withCredentials: true,
+    data: profile,
+  })
+    .then((res) => {
+      result = true;
     })
     .catch((e) => {
       console.error(e);
