@@ -12,7 +12,8 @@ export default function DynamicSelect(props) {
 
   const capitalize = (s) => {
     if (typeof s !== 'string') return '';
-    return s.charAt(0).toUpperCase() + s.slice(1);
+    var str = s.charAt(0).toUpperCase() + s.slice(1);
+    return str.replaceAll('-', ' ');
   };
 
   const renderSelect = (select, index) => {
