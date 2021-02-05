@@ -52,12 +52,15 @@ const ProfilePage = (props) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    setUserProfile({
+    const resp = await setUserProfile({
       skin_color: color,
       skin_acne: acne,
       skin_oiliness: oiliness,
       skin_lines: lines,
     });
+    if (resp) {
+      props.history.push('/');
+    }
   };
 
   const colorHandler = (val) => {

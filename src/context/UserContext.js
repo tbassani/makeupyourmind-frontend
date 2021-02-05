@@ -59,10 +59,10 @@ export const UserProvider = ({ children }) => {
 
   async function setUserProfile(profile) {
     setLoading(true);
-    console.log('GET USER PROFILE');
     const resp = await userService.setUserProfileService(jwt, profile);
     setProfile(resp);
     setLoading(false);
+    return resp;
   }
 
   return (
