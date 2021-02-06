@@ -65,6 +65,73 @@ export const getCategoriesService = async () => {
     .catch((e) => {
       console.error(e);
     });
-
+  categories.unshift({ id: '', description: 'Categoria' });
   return categories;
+};
+
+export const getProductsService = (category, maker, userInuput, pageNumber, setProducts, jwt) => {
+  let cancel;
+  var URL = CONFIG.get_products;
+  console.log(CONFIG.get_products);
+  if (!jwt) {
+    axios({
+      method: 'GET',
+      url: URL,
+      cancelToken: new axios.CancelToken(function executor(c) {
+        cancel = c;
+      }),
+      params: { name: userInuput, page: pageNumber, maker: maker, category: category },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setProducts((prevProducts) => {
+          return [...new Set([...prevProducts, ...res.data])];
+        });
+        //setHasMore(res.data.length > 0);
+        console.log(res.data);
+      })
+      .catch((e) => {
+        if (axios.isCancel(e)) {
+          return;
+        }
+        //setError(true);
+      });
+    if (cancel !== undefined) {
+      return () => cancel();
+    }
+  } else {
+    URL = CONFIG.get_products_and_ratings;
+    console.log(CONFIG.get_products_and_ratings);
+    const headers = {
+      Authorization: 'Bearer ' + jwt,
+      contenttype: 'application/json;',
+      datatype: 'json',
+    };
+    axios({
+      method: 'GET',
+      url: URL,
+      headers: headers,
+      withCredentials: true,
+      cancelToken: new axios.CancelToken(function executor(c) {
+        cancel = c;
+      }),
+      params: { name: userInuput, page: pageNumber, maker: maker, category: category },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setProducts((prevProducts) => {
+          return [...new Set([...prevProducts, ...res.data])];
+        });
+        //setHasMore(res.data.length > 0);
+        console.log(res.data);
+      })
+      .catch((e) => {
+        if (axios.isCancel(e)) {
+          return;
+        }
+      });
+    if (cancel !== undefined) {
+      return () => cancel();
+    }
+  }
 };

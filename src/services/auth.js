@@ -5,6 +5,7 @@ import decode from 'jwt-decode';
 import CONFIG from '../config/endpoints.js';
 
 export const signInService = async (email, password) => {
+  var errorMsg = '';
   const headers = {
     contenttype: 'application/json;',
     datatype: 'json',
@@ -25,7 +26,9 @@ export const signInService = async (email, password) => {
       jwt,
     };
   } catch (error) {
-    return {};
+    console.log(error.response.data.error);
+    errorMsg = error.response.data.error;
+    return { errorMsg };
   }
 };
 

@@ -29,9 +29,13 @@ export const UserProvider = ({ children }) => {
     console.log('Sign In from Context');
     setLoading(true);
     const response = await authService.signInService(email, password);
-    setUser(response.user);
-    setJWT(response.token);
     setLoading(false);
+    if (!response.errorMsg) {
+      setUser(response.user);
+      setJWT(response.token);
+    }
+
+    return response;
   }
 
   async function signOut() {

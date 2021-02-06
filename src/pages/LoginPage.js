@@ -17,8 +17,12 @@ const LoginPage = (props) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    await signIn(email, password);
-    props.history.push('/');
+    const resp = await signIn(email, password);
+    if (!resp.errorMsg) {
+      props.history.push('/');
+    } else {
+      alert(resp.errorMsg);
+    }
   };
   return (
     <div
