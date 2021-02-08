@@ -69,26 +69,70 @@ export const getCategoriesService = async () => {
   return categories;
 };
 
-export const getProductsService = (category, maker, userInuput, pageNumber, setProducts, jwt) => {
+export const getMakersService = async (jwt, setMakers) => {
+  var makers = [];
+  const headers = {
+    Authorization: 'Bearer ' + jwt,
+    contenttype: 'application/json;',
+    datatype: 'json',
+  };
+  axios({
+    method: 'GET',
+    url: CONFIG.get_makers,
+    headers: headers,
+    withCredentials: true,
+  })
+    .then((res) => {
+      makers = res.data.filter((element) => {
+        return element.description.trim() !== '';
+      });
+      makers.unshift({ id: '', description: 'Marcas' });
+      setMakers(makers);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+};
+
+export const getProductsService = async (
+  category,
+  maker,
+  userInput,
+  pageNumber,
+  setProducts,
+  jwt,
+  setHasMore,
+  products
+) => {
+  var productsArray = [];
   let cancel;
   var URL = CONFIG.get_products;
-  console.log(CONFIG.get_products);
-  if (!jwt) {
+  if (!jwt || jwt === '') {
+    console.log('GET PRODUCTS ONLY');
     axios({
       method: 'GET',
       url: URL,
       cancelToken: new axios.CancelToken(function executor(c) {
         cancel = c;
       }),
-      params: { name: userInuput, page: pageNumber, maker: maker, category: category },
+      params: { name: userInput, page: pageNumber, maker: maker, category: category },
     })
       .then((res) => {
-        console.log(res.data);
-        setProducts((prevProducts) => {
-          return [...new Set([...prevProducts, ...res.data])];
-        });
-        //setHasMore(res.data.length > 0);
-        console.log(res.data);
+        setHasMore(res.data.length > 0);
+        // if (res.data.length > 0) {
+        //   setProducts((prevProducts) => {
+        //     return [...new Set([prevProducts, ...res.data])];
+        //   });
+        // }
+        if (res.data.length > 0) {
+          productsArray = res.data;
+        }
+
+        // if (res.data.length > 0) {
+        //   setProducts(products.concat(res.data));
+        // }
+
+        //console.log(res.data);
       })
       .catch((e) => {
         if (axios.isCancel(e)) {
@@ -115,14 +159,14 @@ export const getProductsService = (category, maker, userInuput, pageNumber, setP
       cancelToken: new axios.CancelToken(function executor(c) {
         cancel = c;
       }),
-      params: { name: userInuput, page: pageNumber, maker: maker, category: category },
+      params: { name: userInput, page: pageNumber, maker: maker, category: category },
     })
       .then((res) => {
-        console.log(res.data);
         setProducts((prevProducts) => {
           return [...new Set([...prevProducts, ...res.data])];
         });
-        //setHasMore(res.data.length > 0);
+        setHasMore(res.data.length > 0);
+        console.log('RESPONSE FROM GET ALL PRODUCTS AND RATINGS');
         console.log(res.data);
       })
       .catch((e) => {
@@ -134,4 +178,5 @@ export const getProductsService = (category, maker, userInuput, pageNumber, setP
       return () => cancel();
     }
   }
+  return productsArray;
 };

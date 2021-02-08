@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -14,15 +14,12 @@ import DynamicSelect from '../common/DynamicSelect.js';
 
 const Header = (props) => {
   const { signOut } = useUser();
-  const { searchProducts, categories } = useApp();
+  const { categories, setMaker, setUserInput, setCategory, makers } = useApp();
 
-  const [maker, setMaker] = useState('');
-  const [category, setCategory] = useState('');
-  const [userInput, setUserInput] = useState('');
+  const [makerData, setMakerData] = useState([]);
 
   const handleSignOut = () => {
     signOut().then(() => {
-      console.log('Signout');
       document.location = '/';
     });
   };
@@ -34,18 +31,18 @@ const Header = (props) => {
   const handleMaker = (val) => {
     setTimeout(() => {
       setMaker(val);
-    }, 500);
+    }, 600);
   };
 
   const handleUserInput = (val) => {
     setTimeout(() => {
       setUserInput(val);
-    }, 500);
+    }, 600);
   };
 
   useEffect(() => {
-    searchProducts(category, maker, userInput);
-  }, [category, maker, userInput]);
+    setMakerData(makers);
+  }, [makers]);
 
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
@@ -54,32 +51,20 @@ const Header = (props) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Form inline>
           <Col>
-            {/* <Form.Control
-              onChange={(e) => handleCategory(e.target.value)}
-              as="select"
-              defaultValue="Escolha..."
-            >
-              <option value="">Escolha...</option>
-              <option value="1">Face</option>
-              <option value="2">Lábios</option>
-              <option value="3">Olhos</option>
-              <option value="4">Sobrancelha</option>
-              <option value="5">acessorios</option>
-              <option value="6">Kits de maquiagem</option>
-              <option value="7">Unhas</option>
-              <option value="8">Maquiagem</option>
-            </Form.Control> */}
-            <DynamicSelect data={categories} handleSelect={handleCategory}></DynamicSelect>
+            <DynamicSelect
+              useDescVal={true}
+              data={categories}
+              handleSelect={handleCategory}
+            ></DynamicSelect>
           </Col>
         </Form>
         <Form inline>
           <Col>
-            <FormControl
-              type="text"
-              className="mr-sm-2"
-              placeholder="Marca"
-              onChange={(e) => handleMaker(e.target.value)}
-            />
+            <DynamicSelect
+              useDescVal={true}
+              data={makerData}
+              handleSelect={handleMaker}
+            ></DynamicSelect>
           </Col>
         </Form>
         <Nav className="mr-auto"></Nav>

@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div>
-      <Header isSigned={signed} />
+      <Header isSigned={signed} style={{ position: 'sticky' }} />
       {!isLoading ? (
         <div className="App" style={{ justifyContent: 'space-around', display: 'flex', flex: 1 }}>
           <Routes isSigned={signed} />

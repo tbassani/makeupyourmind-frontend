@@ -1,35 +1,83 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 
 import ProductCard from './ProductCard';
-import CardGroup from 'react-bootstrap/CardGroup';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 import { useApp } from '../../context/AppContext.js';
 
 const ProductList = (props) => {
-  const { products, getAllProducts, loading, error } = useApp();
+  const { products, loadingProducts, setPage, page, hasMore } = useApp();
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
+  const observer = useRef();
+  const lastProductRef = useCallback(
+    (node) => {
+      if (loadingProducts) {
+        console.log('IS LOADING');
+        return;
+      }
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          console.log('VISIBLE');
+          setPage(page + 1);
+        }
+      });
+      if (node) {
+        observer.current.observe(node);
+      }
+    },
+    [page, setPage, hasMore, loadingProducts]
+  );
 
   const renderCard = (card, index) => {
-    return (
-      <ProductCard
-        key={card.id}
-        img={card.img_src}
-        name={card.name}
-        maker={card.maker}
-        price={card.price}
-        img_ref={card.ref}
-      />
-    );
+    if (card.id) {
+      if (!loadingProducts) {
+        if (products.length === index + 1 && hasMore) {
+          return (
+            <ProductCard
+              prodRef={lastProductRef}
+              key={card.id}
+              img={card.img_src}
+              name={card.name}
+              maker={card.maker}
+              price={card.price}
+              img_ref={card.ref}
+            />
+          );
+        } else {
+          return (
+            <ProductCard
+              key={card.id}
+              img={card.img_src}
+              name={card.name}
+              maker={card.maker}
+              price={card.price}
+              img_ref={card.ref}
+            />
+          );
+        }
+      } else {
+        return (
+          <ProductCard
+            key={card.id}
+            img={card.img_src}
+            name={card.name}
+            maker={card.maker}
+            price={card.price}
+            img_ref={card.ref}
+            isSpinner={true}
+          />
+        );
+      }
+    }
   };
   return (
-    <div>
-      <CardGroup>{products.map(renderCard)}</CardGroup>
-      <div>{loading && 'Loading...'}</div>
-      <div>{error && 'Error'}</div>
-    </div>
+    <Col style={{ padding: '7%' }}>
+      <Row>{products.map(renderCard)}</Row>
+    </Col>
   );
 };
 

@@ -36,8 +36,8 @@ const RegistrationPage = (props) => {
     console.log('Register');
     if (password === confirmPassword) {
       const resp = await signUp({
-        first_name: firstname,
-        last_name: lastname,
+        first_name: 'User',
+        last_name: 'Name',
         email,
         password,
         skin_color: color,

@@ -29,12 +29,12 @@ export const UserProvider = ({ children }) => {
     console.log('Sign In from Context');
     setLoading(true);
     const response = await authService.signInService(email, password);
-    setLoading(false);
+
     if (!response.errorMsg) {
       setUser(response.user);
-      setJWT(response.token);
+      setJWT(response.jwt);
     }
-
+    setLoading(false);
     return response;
   }
 

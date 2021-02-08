@@ -17,11 +17,19 @@ export default function DynamicSelect(props) {
   };
 
   const renderSelect = (select, index) => {
-    return (
-      <option value={select.id} key={select.id}>
-        {capitalize(select.description)}
-      </option>
-    );
+    if (props.useDescVal) {
+      return (
+        <option value={select.description} key={select.id}>
+          {capitalize(select.description)}
+        </option>
+      );
+    } else {
+      return (
+        <option value={select.id} key={select.id}>
+          {capitalize(select.description)}
+        </option>
+      );
+    }
   };
 
   if (props.required) {
