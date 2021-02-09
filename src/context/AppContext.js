@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     setProducts([]);
     setPage(1);
-  }, [maker, category, userInput]);
+  }, [maker, category, userInput, jwt]);
 
   useEffect(() => {
     setLoadingProducts(true);

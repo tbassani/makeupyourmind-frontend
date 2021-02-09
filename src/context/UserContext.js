@@ -23,7 +23,7 @@ export const UserProvider = ({ children }) => {
 
     checkSignIn(jwt, setJWT);
     setIsSignedIn(Boolean(jwt));
-  }, []);
+  }, [jwt]);
 
   async function signIn(email, password) {
     console.log('Sign In from Context');

@@ -19,7 +19,7 @@ const LoginPage = (props) => {
     e.preventDefault();
     const resp = await signIn(email, password);
     if (!resp.errorMsg) {
-      props.history.push('/main');
+      props.history.push('/');
     } else {
       alert(resp.errorMsg);
     }
