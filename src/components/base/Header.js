@@ -25,6 +25,8 @@ const Header = (props) => {
     signOut();
     setJWT(null);
     removeCookie('sid', { path: '/', domain: '*.herokuapp.com' });
+    removeCookie('sid', { path: '/', domain: '.herokuapp.com' });
+    removeCookie('sid', { path: '/', domain: '.makeup-yourmind.herokuapp.com' });
     document.location = '/';
   };
 
