@@ -66,7 +66,7 @@ export const getCategoriesService = async () => {
       console.error(e);
     });
   categories.unshift({ id: '', description: 'Categoria' });
-  return categories;
+  return categories.filter((cat) => cat.description !== '27');
 };
 
 export const getMakersService = async (jwt, setMakers) => {
