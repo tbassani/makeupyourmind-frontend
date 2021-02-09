@@ -7,10 +7,9 @@ const PrivateRoute = ({ component: Component, isSigned, ...rest }) => {
       {...rest}
       render={(props) => {
         if (isSigned) {
-          return <Component {...props} />;
+          return <Component {...props} isSigned={isSigned} />;
         } else {
-          console.log(isSigned);
-          return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
+          return <Redirect to={{ pathname: '/welcome', state: { from: props.location } }} />;
         }
       }}
     />

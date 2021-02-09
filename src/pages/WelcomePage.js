@@ -7,7 +7,7 @@ const WelcomePage = (props) => {
       id="container"
       style={{ width: '50%', display: 'flex', justifyContent: 'space-evenly', flex: 1 }}
     >
-      <ProductList />
+      <ProductList isSigned={props.isSigned} history={props.history} />
     </div>
   );
 };

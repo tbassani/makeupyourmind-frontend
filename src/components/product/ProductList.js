@@ -45,6 +45,14 @@ const ProductList = (props) => {
               maker={card.maker}
               price={card.price}
               img_ref={card.ref}
+              isSigned={props.isSigned}
+              history={props.history}
+              product_id={card.id}
+              rating={
+                card.ratingAmount && parseInt(card.ratingAmount) !== 0
+                  ? card.totalRating / parseInt(card.ratingAmount)
+                  : 0
+              }
             />
           );
         } else {
@@ -56,6 +64,14 @@ const ProductList = (props) => {
               maker={card.maker}
               price={card.price}
               img_ref={card.ref}
+              isSigned={props.isSigned}
+              history={props.history}
+              product_id={card.id}
+              rating={
+                card.ratingAmount && parseInt(card.ratingAmount) !== 0
+                  ? card.totalRating / parseInt(card.ratingAmount)
+                  : 0
+              }
             />
           );
         }
@@ -69,6 +85,14 @@ const ProductList = (props) => {
             price={card.price}
             img_ref={card.ref}
             isSpinner={true}
+            isSigned={props.isSigned}
+            history={props.history}
+            rating={
+              card.ratingAmount && parseInt(card.ratingAmount) !== 0
+                ? card.totalRating / parseInt(card.ratingAmount)
+                : 0
+            }
+            product_id={card.id}
           />
         );
       }

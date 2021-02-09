@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
-import * as productService from '../services/products.js';
 import * as appService from '../services/app.js';
 
 import { useUser } from './UserContext.js';
@@ -136,15 +135,6 @@ export const AppProvider = ({ children }) => {
   //   setLoadingProducts(false);
   // }
 
-  async function getAllProducts() {
-    console.log('Get all products');
-    setLoadingProducts(true);
-    const response = await productService.getProductsService();
-    setProducts(response);
-    setLoadingProducts(false);
-    return response;
-  }
-
   async function getCategories() {
     const response = await appService.getCategoriesService();
     setCategories(response);
@@ -172,7 +162,6 @@ export const AppProvider = ({ children }) => {
         setMaker,
         setPage,
         products,
-        getAllProducts,
         userInput,
         categories,
         setCategories,

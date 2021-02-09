@@ -4,7 +4,14 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
+import { Link } from 'react-router-dom';
+
+import ReactStars from 'react-rating-stars-component';
+
 const ProductCard = (props) => {
+  const handleClick = () => {
+    props.history.push('/register');
+  };
   if (!props.isSpinner) {
     return (
       <Card
@@ -29,7 +36,37 @@ const ProductCard = (props) => {
             <br />
             <span>R${props.price}</span>
           </Card.Text>
-          <Button variant="primary">Avalie!</Button>
+          {props.isSigned ? (
+            <div>
+              <ReactStars
+                count={5}
+                size={59}
+                isHalf={true}
+                activeColor="#ffd700"
+                edit={false}
+                value={props.rating}
+              />
+              <Link
+                underline="none"
+                to={{
+                  pathname: '/product_rating',
+                  product_id: props.product_id,
+                  img_ref: props.img_ref,
+                  name: props.name,
+                  maker: props.maker,
+                  price: props.price,
+                  img: props.img,
+                  rating: props.rating,
+                }}
+              >
+                Avalie!
+              </Link>
+            </div>
+          ) : (
+            <Button variant="primary" onClick={handleClick}>
+              Avalie!
+            </Button>
+          )}
         </Card.Body>
       </Card>
     );

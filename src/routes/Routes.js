@@ -9,6 +9,8 @@ import LoginPage from '../pages/LoginPage.js';
 import WelcomePage from '../pages/WelcomePage.js';
 import RegistrationPage from '../pages/RegistrationPage.js';
 import ProfilePage from '../pages/ProfilePage.js';
+import RatingPage from '../pages/RatingPage.js';
+import MainPage from '../pages/MainPage.js';
 
 const Routes = (props) => (
   <BrowserRouter>
@@ -17,7 +19,9 @@ const Routes = (props) => (
       <AuthRoutes path="/login" component={LoginPage} isSigned={props.isSigned} />
       <AuthRoutes path="/register" component={RegistrationPage} isSigned={props.isSigned} />
       <PrivateRoutes path="/profile" component={ProfilePage} isSigned={props.isSigned} />
-      <Route path="/" component={WelcomePage} />;
+      <PrivateRoutes path="/product_rating" component={RatingPage} isSigned={props.isSigned} />
+      <PrivateRoutes path="/main" component={MainPage} isSigned={props.isSigned} />
+      <PrivateRoutes path="/" component={MainPage} isSigned={props.isSigned} />;
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>
