@@ -15,33 +15,23 @@ export const UserProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['jid']);
+  const [cookies, setCookie, removeCookie] = useCookies(['sid']);
 
   useEffect(() => {
     console.log('Check signIn from context');
-    setLoading(true);
-    async function checkSignIn(jwt, setJWT) {
-      await authService.isAuthService(jwt, setJWT);
-      setLoading(false);
-    }
     if (jwt && jwt !== '') {
-      checkSignIn(jwt, setJWT);
-    } else {
-      console.log('COOKIES: ' + cookies.jid);
-      checkSignIn(cookies.jid, setJWT);
+      console.log('JWT existe');
+    } else if (cookies.sid) {
+      console.log('Cookie existe');
+      setJWT(cookies.sid);
     }
-    if (jwt && jwt !== '') {
-      handleCookie('jid', jwt);
-    }
+    setLoading(false);
     setIsSignedIn(Boolean(jwt));
-  }, [jwt, cookies]);
+  }, [cookies]);
 
-  function handleCookie(name, val) {
-    setCookie(name, val, {
-      path: '/',
-      expires: new Date(Date.now() + 86400000),
-    });
-  }
+  useEffect(() => {
+    setIsSignedIn(Boolean(jwt));
+  }, [jwt]);
 
   async function signIn(email, password) {
     console.log('Sign In from Context');
@@ -49,8 +39,13 @@ export const UserProvider = ({ children }) => {
     const response = await authService.signInService(email, password);
 
     if (!response.errorMsg) {
+      setCookie('sid', response.jwt, {
+        path: '/',
+        expires: new Date(Date.now() + 86400000),
+      });
       setUser(response.user);
       setJWT(response.jwt);
+      localStorage.setItem('token', response.jwt);
     }
     setLoading(false);
     return response;
@@ -59,7 +54,7 @@ export const UserProvider = ({ children }) => {
   async function signOut() {
     console.log('Sign Out from Context');
     setJWT(null);
-    removeCookie('jid');
+    removeCookie('sid', { path: '/' });
     //await authService.signOutService(jwt);
   }
 

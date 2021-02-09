@@ -9,19 +9,25 @@ import Col from 'react-bootstrap/Col';
 
 import { useUser } from '../../context/UserContext.js';
 import { useApp } from '../../context/AppContext.js';
+import { useCookies } from 'react-cookie';
 
 import DynamicSelect from '../common/DynamicSelect.js';
 
 const Header = (props) => {
-  const { signOut } = useUser();
+  const { signOut, setJWT } = useUser();
   const { categories, setMaker, setUserInput, setCategory, makers } = useApp();
+
+  const [cookies, setCookie, removeCookie] = useCookies(['jid']);
 
   const [makerData, setMakerData] = useState([]);
 
   const handleSignOut = () => {
-    signOut().then(() => {
-      document.location = '/';
-    });
+    // signOut().then(() => {
+
+    // });
+    removeCookie('sid', { path: '/', domain: 'localhost' });
+    localStorage.removeItem('token');
+    document.location = '/';
   };
 
   const handleCategory = (val) => {

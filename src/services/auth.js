@@ -73,21 +73,22 @@ export const isAuthService = async (jwt, callback) => {
         }
       });
     }
+  } else {
+    await fetch(CONFIG.check_token, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    }).then((response) => {
+      if (response.status === 200) {
+        callback(response.headers.get('X-Token'));
+        result = true;
+      } else {
+        callback('');
+        result = false;
+      }
+    });
   }
-  /*await fetch(CONFIG.check_token, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  }).then((response) => {
-    if (response.status === 200) {
-      callback(response.headers.get('X-Token'));
-      result = true;
-    } else {
-      callback('');
-      result = false;
-    }
-  });*/
   return result;
 };
