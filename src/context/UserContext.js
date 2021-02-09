@@ -53,7 +53,7 @@ export const UserProvider = ({ children }) => {
   async function signOut() {
     console.log('Sign Out from Context');
     setJWT(null);
-    removeCookie('sid', { path: '/', domain: 'makeup-yourmind.herokuapp.com' });
+    removeCookie('sid', { path: '/', domain: 'https://makeup-yourmind.herokuapp.com/' });
     //await authService.signOutService(jwt);
   }
 
