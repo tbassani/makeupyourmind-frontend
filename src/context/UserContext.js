@@ -26,13 +26,16 @@ export const UserProvider = ({ children }) => {
     }
 
     checkSignIn(jwt, setJWT);
-    handleCookie('jid', jwt);
+    if (jwt && jwt !== '') {
+      handleCookie('jid', jwt);
+    }
     setIsSignedIn(Boolean(jwt));
   }, [jwt]);
 
   function handleCookie(name, val) {
     setCookie(name, val, {
       path: '/',
+      expires: new Date(Date.now() + 86400000),
     });
   }
 
