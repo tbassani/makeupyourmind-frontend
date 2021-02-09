@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  const [cookies, setCookie] = useCookies(['']);
+  const [cookies, setCookie, removeCookie] = useCookies(['jid']);
 
   useEffect(() => {
     console.log('Check signIn from context');
@@ -24,13 +24,17 @@ export const UserProvider = ({ children }) => {
       await authService.isAuthService(jwt, setJWT);
       setLoading(false);
     }
-
-    checkSignIn(jwt, setJWT);
+    if (jwt && jwt !== '') {
+      checkSignIn(jwt, setJWT);
+    } else {
+      console.log('COOKIES: ' + cookies.jid);
+      checkSignIn(cookies.jid, setJWT);
+    }
     if (jwt && jwt !== '') {
       handleCookie('jid', jwt);
     }
     setIsSignedIn(Boolean(jwt));
-  }, [jwt]);
+  }, [jwt, cookies]);
 
   function handleCookie(name, val) {
     setCookie(name, val, {
@@ -55,7 +59,8 @@ export const UserProvider = ({ children }) => {
   async function signOut() {
     console.log('Sign Out from Context');
     setJWT(null);
-    await authService.signOutService(jwt);
+    removeCookie('jid');
+    //await authService.signOutService(jwt);
   }
 
   async function signUp(userData) {

@@ -4,16 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { CookiesProvider } from 'react-cookie';
+
 import { UserProvider } from './context/UserContext.js';
 import { AppProvider } from './context/AppContext.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserProvider>
-      <AppProvider>
-        <App />
-      </AppProvider>
-    </UserProvider>
+    <CookiesProvider>
+      <UserProvider>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </UserProvider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

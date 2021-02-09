@@ -74,7 +74,7 @@ export const isAuthService = async (jwt, callback) => {
       });
     }
   }
-  await fetch(CONFIG.check_token, {
+  /*await fetch(CONFIG.check_token, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -88,6 +88,6 @@ export const isAuthService = async (jwt, callback) => {
       callback('');
       result = false;
     }
-  });
+  });*/
   return result;
 };
