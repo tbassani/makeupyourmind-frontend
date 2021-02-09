@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
+import { useCookies } from 'react-cookie';
+
 import * as authService from '../services/auth.js';
 import * as userService from '../services/user.js';
 
@@ -13,6 +15,8 @@ export const UserProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [profile, setProfile] = useState(null);
 
+  const [cookies, setCookie] = useCookies(['']);
+
   useEffect(() => {
     console.log('Check signIn from context');
     setLoading(true);
@@ -22,8 +26,15 @@ export const UserProvider = ({ children }) => {
     }
 
     checkSignIn(jwt, setJWT);
+    handleCookie('jid', jwt);
     setIsSignedIn(Boolean(jwt));
   }, [jwt]);
+
+  function handleCookie(name, val) {
+    setCookie(name, val, {
+      path: '/',
+    });
+  }
 
   async function signIn(email, password) {
     console.log('Sign In from Context');
@@ -88,6 +99,7 @@ export const UserProvider = ({ children }) => {
         getUserProfile,
         setUserProfile,
         profile,
+        cookies,
       }}
     >
       {children}
