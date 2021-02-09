@@ -72,7 +72,7 @@ const Header = (props) => {
           <Col>
             <FormControl
               type="text"
-              placeholder="Search"
+              placeholder="Busca"
               className="mr-sm-2"
               onChange={(e) => handleUserInput(e.target.value)}
             />
