@@ -57,6 +57,7 @@ export const UserProvider = ({ children }) => {
     removeCookie('sid', { path: '/', domain: '.herokuapp.com' });
     removeCookie('sid', { path: '/', domain: '.makeup-yourmind.herokuapp.com' });
     removeCookie('sid', { path: '/', domain: '*makeup-yourmind.herokuapp.com' });
+    cookies.remove('sid');
     //await authService.signOutService(jwt);
   }
 
