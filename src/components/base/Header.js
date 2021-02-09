@@ -22,11 +22,9 @@ const Header = (props) => {
   const [makerData, setMakerData] = useState([]);
 
   const handleSignOut = () => {
-    // signOut().then(() => {
-
-    // });
-    setJWT('');
-    removeCookie('sid', { path: '/', domain: '.makeup-yourmind.herokuapp.com' });
+    signOut();
+    setJWT(null);
+    removeCookie('sid', { path: '/', domain: '.makeup-yourmind.herokuapp' });
     document.location = '/';
   };
 
