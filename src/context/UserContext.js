@@ -45,7 +45,6 @@ export const UserProvider = ({ children }) => {
       });
       setUser(response.user);
       setJWT(response.jwt);
-      localStorage.setItem('token', response.jwt);
     }
     setLoading(false);
     return response;

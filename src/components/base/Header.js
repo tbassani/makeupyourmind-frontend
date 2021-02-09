@@ -25,8 +25,7 @@ const Header = (props) => {
     // signOut().then(() => {
 
     // });
-    removeCookie('sid', { path: '/', domain: 'localhost' });
-    localStorage.removeItem('token');
+    removeCookie('sid', { path: '/', domain: 'makeup-yourmind.herokuapp.com' });
     document.location = '/';
   };
 

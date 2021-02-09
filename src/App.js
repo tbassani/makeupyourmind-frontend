@@ -20,7 +20,6 @@ const App = () => {
   useEffect(() => {
     setSigned(Boolean(jwt));
     setIsLoading(loading);
-    localStorage.setItem('token', jwt);
   }, [jwt]);
 
   useEffect(() => {
