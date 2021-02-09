@@ -26,7 +26,7 @@ const Header = (props) => {
 
     // });
     setJWT('');
-    removeCookie('sid', { path: '/', domain: 'makeup-yourmind.herokuapp.com' });
+    removeCookie('sid', { path: '/', domain: '.makeup-yourmind.herokuapp.com' });
     document.location = '/';
   };
 
