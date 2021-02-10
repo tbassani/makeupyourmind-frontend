@@ -11,7 +11,7 @@ import CONFIG from '../config/endpoints.js';
 const AppContext = createContext({});
 
 export const AppProvider = ({ children }) => {
-  const { jwt, profile } = useUser();
+  const { jwt, profile, signOut } = useUser();
 
   const [maker, setMaker] = useState('');
   const [makers, setMakers] = useState([]);
@@ -113,6 +113,8 @@ export const AppProvider = ({ children }) => {
           if (axios.isCancel(e)) {
             setLoadingProducts(false);
             return;
+          } else {
+            signOut();
           }
         });
       if (cancel !== undefined) {
