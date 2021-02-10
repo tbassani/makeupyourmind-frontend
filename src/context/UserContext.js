@@ -53,7 +53,7 @@ export const UserProvider = ({ children }) => {
   async function signOut() {
     console.log('Sign Out from Context');
     setJWT(null);
-    setCookie('sid', '', {
+    setCookie('sid', null, {
       path: '/',
       expires: new Date(Date.now() + 86400000),
     });
