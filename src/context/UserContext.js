@@ -42,6 +42,7 @@ export const UserProvider = ({ children }) => {
       setCookie('sid', response.jwt, {
         path: '/',
         expires: new Date(Date.now() + 86400000),
+        domain: '.herokuapp.com',
       });
       setUser(response.user);
       setJWT(response.jwt);
@@ -56,6 +57,7 @@ export const UserProvider = ({ children }) => {
     setCookie('sid', '', {
       path: '/',
       expires: new Date(Date.now() + 86400000),
+      domain: '.herokuapp.com',
     });
     removeCookie('sid', { path: '/', domain: '*.herokuapp.com' });
     removeCookie('sid', { path: '/', domain: '.herokuapp.com' });
