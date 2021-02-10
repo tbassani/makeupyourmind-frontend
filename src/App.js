@@ -18,8 +18,8 @@ const App = () => {
   const { jwt, loading, setJWT } = useUser();
   const [cookies, setCookie, removeCookie] = useCookies(['jid']);
   useEffect(() => {
-    setSigned(Boolean(jwt));
-    setIsLoading(loading);
+    console.log(jwt);
+    setSigned(Boolean(jwt && jwt !== null));
   }, [jwt]);
 
   useEffect(() => {
@@ -30,6 +30,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log('Is loading: ' + loading);
     setIsLoading(loading);
   }, [loading]);
 

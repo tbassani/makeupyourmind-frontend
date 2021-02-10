@@ -22,11 +22,11 @@ export const UserProvider = ({ children }) => {
     if (jwt && jwt !== '') {
       console.log('JWT existe');
     } else if (cookies.sid) {
-      console.log('Cookie existe');
+      console.log('Cookie existe: ' + cookies.sid);
       setJWT(cookies.sid);
     }
     setLoading(false);
-    setIsSignedIn(Boolean(jwt));
+    setIsSignedIn(Boolean(jwt && jwt !== ''));
   }, [cookies]);
 
   useEffect(() => {
@@ -52,8 +52,9 @@ export const UserProvider = ({ children }) => {
 
   async function signOut() {
     console.log('Sign Out from Context');
+    setLoading(true);
     setJWT(null);
-    setCookie('sid', null, {
+    setCookie('sid', '', {
       path: '/',
       expires: new Date(Date.now() + 86400000),
     });
@@ -63,6 +64,7 @@ export const UserProvider = ({ children }) => {
     removeCookie('sid', { path: '/', domain: '*makeup-yourmind.herokuapp.com' });
     cookies.remove('sid');
     //await authService.signOutService(jwt);
+    setLoading(false);
   }
 
   async function signUp(userData) {

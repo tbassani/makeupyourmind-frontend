@@ -43,7 +43,8 @@ export const AppProvider = ({ children }) => {
 
     let cancel;
     var URL = CONFIG.get_products;
-    if (!jwt) {
+    console.log('JWT IS: ' + jwt);
+    if (!jwt || jwt === null || jwt === '') {
       console.log('GET ONLY PRODUCTS');
       axios({
         method: 'GET',
@@ -69,6 +70,7 @@ export const AppProvider = ({ children }) => {
         })
         .catch((e) => {
           if (axios.isCancel(e)) {
+            setLoadingProducts(false);
             return;
           }
         });
@@ -110,6 +112,7 @@ export const AppProvider = ({ children }) => {
         })
         .catch((e) => {
           if (axios.isCancel(e)) {
+            setLoadingProducts(false);
             return;
           }
         });
