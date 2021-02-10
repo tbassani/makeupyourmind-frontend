@@ -18,7 +18,6 @@ const App = () => {
   const { jwt, loading, setJWT } = useUser();
   const [cookies, setCookie, removeCookie] = useCookies(['jid']);
   useEffect(() => {
-    console.log(jwt);
     setSigned(Boolean(jwt && jwt !== null));
   }, [jwt]);
 

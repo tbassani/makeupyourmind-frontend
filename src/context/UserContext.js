@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
     if (jwt && jwt !== '') {
       console.log('JWT existe');
     } else if (cookies.sid) {
-      console.log('Cookie existe: ' + cookies.sid);
+      console.log('Cookie existe');
       setJWT(cookies.sid);
     }
     setLoading(false);

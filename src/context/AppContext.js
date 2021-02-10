@@ -43,7 +43,6 @@ export const AppProvider = ({ children }) => {
 
     let cancel;
     var URL = CONFIG.get_products;
-    console.log('JWT IS: ' + jwt);
     if (!jwt || jwt === null || jwt === '') {
       console.log('GET ONLY PRODUCTS');
       axios({
