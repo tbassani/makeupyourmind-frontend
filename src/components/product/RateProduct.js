@@ -23,6 +23,7 @@ const RateProduct = (props) => {
   const rateProduct = () => {
     console.log(rating);
     ratingService.evalProductService(jwt, parseInt(props.product_id), rating);
+    document.location = '/';
   };
 
   const ratingChanged = (newRating) => {

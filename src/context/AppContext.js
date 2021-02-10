@@ -11,7 +11,7 @@ import CONFIG from '../config/endpoints.js';
 const AppContext = createContext({});
 
 export const AppProvider = ({ children }) => {
-  const { jwt } = useUser();
+  const { jwt, profile } = useUser();
 
   const [maker, setMaker] = useState('');
   const [makers, setMakers] = useState([]);
@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     setProducts([]);
     setPage(1);
-  }, [maker, category, userInput, jwt]);
+  }, [maker, category, userInput, jwt, profile]);
 
   useEffect(() => {
     setLoadingProducts(true);
@@ -120,7 +120,7 @@ export const AppProvider = ({ children }) => {
         return () => cancel();
       }
     }
-  }, [userInput, page, maker, category, jwt]);
+  }, [userInput, page, maker, category, jwt, profile]);
 
   // async function searchProducts() {
   //   setLoadingProducts(true);
