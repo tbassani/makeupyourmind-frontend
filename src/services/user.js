@@ -4,6 +4,7 @@ import CONFIG from '../config/endpoints.js';
 
 export const registerUserService = async (userData, callback) => {
   var result = false;
+  var jwt = '';
   var errorMsg = '';
   const headers = {
     contenttype: 'application/json;',
@@ -19,6 +20,7 @@ export const registerUserService = async (userData, callback) => {
   })
     .then((res) => {
       result = true;
+      jwt = res.headers['x-token'];
       callback(res.headers['x-token']);
     })
     .catch((e) => {
@@ -26,6 +28,7 @@ export const registerUserService = async (userData, callback) => {
       errorMsg = e.response.data.error;
     });
   return {
+    jwt,
     result,
     errorMsg,
   };

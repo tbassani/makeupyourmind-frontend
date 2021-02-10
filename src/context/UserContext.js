@@ -70,6 +70,13 @@ export const UserProvider = ({ children }) => {
   async function signUp(userData) {
     setLoading(true);
     const resp = await userService.registerUserService(userData, setJWT);
+    if (!resp.errorMsg) {
+      //SetCookie
+      setCookie('sid', resp.jwt, {
+        path: '/',
+        expires: new Date(Date.now() + 86400000),
+      });
+    }
     setLoading(false);
     return resp;
   }
