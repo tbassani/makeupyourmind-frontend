@@ -51,7 +51,7 @@ const Header = (props) => {
   }, [makers]);
 
   return (
-    <Navbar bg="primary" variant="dark" expand="lg">
+    <Navbar bg="primary" variant="dark" expand="lg" sticky="top">
       <Navbar.Brand href="/">Make-up Your Mind</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
