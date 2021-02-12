@@ -86,7 +86,19 @@ export const getMakersService = async (jwt, setMakers) => {
       makers = res.data.filter((element) => {
         return element.description.trim() !== '';
       });
+
+      makers = makers.sort(function (a, b) {
+        if (a.description < b.description) {
+          return -1;
+        }
+        if (a.description > b.description) {
+          return 1;
+        }
+        return 0;
+      });
+
       makers.unshift({ id: '', description: 'Marcas' });
+
       setMakers(makers);
     })
     .catch((e) => {
