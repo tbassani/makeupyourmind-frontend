@@ -40,7 +40,7 @@ const ProductCard = (props) => {
             <div>
               <ReactStars
                 count={5}
-                size={45}
+                size={47}
                 isHalf={true}
                 activeColor="#ffd700"
                 edit={false}
