@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
 import { Link } from 'react-router-dom';
-
 import ReactStars from 'react-rating-stars-component';
 
 const ProductCard = (props) => {
@@ -40,7 +39,7 @@ const ProductCard = (props) => {
             <div>
               <ReactStars
                 count={5}
-                size={45}
+                size={47}
                 isHalf={true}
                 activeColor="#ffd700"
                 edit={false}
