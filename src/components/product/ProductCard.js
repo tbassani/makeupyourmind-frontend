@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
 import { Link } from 'react-router-dom';
+
 import ReactStars from 'react-rating-stars-component';
 
 const ProductCard = (props) => {
